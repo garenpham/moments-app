@@ -1,8 +1,13 @@
 import axios from 'axios';
-import { PostCreateProps } from '../types';
+import { PostProps } from '../types';
 
 const url = process.env.REACT_APP_SERVER_URL || '';
 
-export const fetchPosts = () => axios.get(url);
-export const createPost = (newPost: PostCreateProps) =>
-	axios.post(url, newPost);
+const fetchPosts = () => axios.get(url);
+const createPost = (newPost: PostProps) => axios.post(url, newPost);
+const updatePost = (id: number, updatedPost: PostProps) =>
+	axios.patch(`${url}/${id}`, updatedPost);
+const deletePost = (id: number) => axios.delete(`${url}/${id}`);
+const likePost = (id: number) => axios.patch(`${url}/${id}/likePost`);
+
+export { createPost, fetchPosts, updatePost, deletePost, likePost };

@@ -11,6 +11,8 @@ import {
 	Typography,
 } from '@mui/material';
 import moment from 'moment';
+import { deletePost, likePost } from '../../../actions/posts';
+import { useAppDispatch } from '../../../hooks';
 import { PostProps } from '../../../types';
 import styles from './styles';
 
@@ -29,6 +31,7 @@ function Post({
 	likeCount,
 	setCurrentId,
 }: Props) {
+	const dispatch = useAppDispatch();
 	return (
 		<Card sx={styles.card}>
 			<CardMedia
@@ -49,7 +52,11 @@ function Post({
 				<Button
 					style={{ color: 'white' }}
 					size="small"
-					onClick={() => setCurrentId(_id)}>
+					onClick={() => {
+						if (_id) {
+							setCurrentId(_id);
+						}
+					}}>
 					<MoreHorizIcon fontSize="small" />
 				</Button>
 			</Box>
@@ -59,16 +66,23 @@ function Post({
 				sx={styles.details}>
 				<Typography
 					variant="body2"
-					color="text Secondary">
+					color="textSecondary">
 					{tags.map((tag) => `#${tag} `)}
 				</Typography>
 			</Box>
 
+			<Typography
+				sx={styles.title}
+				variant="h5"
+				gutterBottom>
+				{title}
+			</Typography>
+
 			<CardContent>
 				<Typography
-					sx={styles.title}
-					variant="h5"
-					gutterBottom>
+					variant="body2"
+					color="textSecondary"
+					component="p">
 					{message}
 				</Typography>
 			</CardContent>
@@ -77,16 +91,24 @@ function Post({
 				<Button
 					size="small"
 					color="primary"
-					onClick={() => {}}>
+					onClick={() => {
+						if (_id) {
+							dispatch(likePost(_id));
+						}
+					}}>
 					<ThumbUpAltIcon fontSize="small" />
-					Like
+					Like &nbsp;
 					{likeCount}
 				</Button>
 
 				<Button
 					size="small"
 					color="primary"
-					onClick={() => {}}>
+					onClick={() => {
+						if (_id) {
+							dispatch(deletePost(_id));
+						}
+					}}>
 					<DeleteIcon fontSize="small" />
 					Delete
 				</Button>

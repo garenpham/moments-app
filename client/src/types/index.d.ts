@@ -1,4 +1,7 @@
-type PostCreateProps = {
+type PostProps = {
+	_id?: number;
+	createdAt?: Date;
+	likeCount?: number;
 	creator: string;
 	title: string;
 	message: string;
@@ -6,25 +9,14 @@ type PostCreateProps = {
 	selectedFile: string;
 };
 
-type PostProps = PostCreateProps & {
-	_id: number;
-	createdAt: Date;
-	likeCount: number;
-};
-
-interface IActions {
-	FETCH_ALL: string;
-	CREATE: string;
+interface IAction {
+	type: string;
+	payload: PostProps;
 }
 
-interface IFetchAll {
-	type: IActions['FETCH_ALL'];
-	payload: any;
+interface IDelete {
+	type: string;
+	payload: number;
 }
 
-interface ICreate {
-	type: IActions['CREATE'];
-	payload: any;
-}
-
-export { ICreate, IFetchAll, PostCreateProps, PostProps };
+export { IAction, IDelete, PostProps };

@@ -1,9 +1,9 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64';
-import { createPost } from '../../actions/posts';
-import { useAppDispatch } from '../../hooks';
-import { PostCreateProps } from '../../types';
+import { createPost, updatePost } from '../../actions/posts';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { PostProps } from '../../types';
 import styles from './styles';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Form({ currentId, setCurrentId }: Props) {
-	const [postData, setPostData] = useState<PostCreateProps>({
+	const [postData, setPostData] = useState({
 		creator: '',
 		title: '',
 		message: '',
@@ -20,16 +20,36 @@ function Form({ currentId, setCurrentId }: Props) {
 		selectedFile: '',
 	});
 
-	const [tagInput, setTagInput] = useState('');
-
+	const post = useAppSelector((state) =>
+		currentId ? state.posts.find((p: PostProps) => p._id === currentId) : null,
+	);
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		if (post) setPostData(post);
+	}, [post]);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(createPost(postData));
-		console.log(postData);
+
+		if (currentId) {
+			dispatch(updatePost(currentId, postData));
+		} else {
+			dispatch(createPost(postData));
+		}
+		clear();
+		// console.log(postData);
 	};
-	const clear = () => {};
+	const clear = () => {
+		setPostData({
+			creator: '',
+			title: '',
+			message: '',
+			tags: [''],
+			selectedFile: '',
+		});
+		setCurrentId(0);
+	};
 
 	return (
 		<Paper sx={styles.paper}>
@@ -39,7 +59,9 @@ function Form({ currentId, setCurrentId }: Props) {
 				noValidate
 				sx={[styles.root, styles.form]}
 				onSubmit={handleSubmit}>
-				<Typography variant="h6">Upload a Memorable Moment</Typography>
+				<Typography variant="h6">
+					{!currentId ? 'Upload a Memorable Moment' : 'Editing Post'}
+				</Typography>
 				<TextField
 					name="creator"
 					variant="outlined"
