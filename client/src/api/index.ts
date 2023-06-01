@@ -10,4 +10,27 @@ const updatePost = (id: number, updatedPost: PostProps) =>
 const deletePost = (id: number) => axios.delete(`${url}/${id}`);
 const likePost = (id: number) => axios.patch(`${url}/${id}/likePost`);
 
-export { createPost, fetchPosts, updatePost, deletePost, likePost };
+const fetchGoogleCredentials = (token: string) =>
+	axios
+		.get(
+			`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+					Accept: 'application/json',
+				},
+			},
+		)
+		.then((res) => {
+			return res.data;
+		})
+		.catch((err) => console.log(err));
+
+export {
+	createPost,
+	deletePost,
+	fetchGoogleCredentials,
+	fetchPosts,
+	likePost,
+	updatePost,
+};
