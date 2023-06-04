@@ -11,6 +11,7 @@ import {
 import { useGoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signin, signup } from '../../actions/auth';
 import { fetchGoogleCredentials } from '../../api';
 import { useAppDispatch } from '../../hooks';
 import Input from './Input';
@@ -19,15 +20,34 @@ import styles from './styles';
 
 type Props = {};
 
+const initialState = {
+	firstName: '',
+	lastName: '',
+	email: '',
+	password: '',
+	confirmPassword: '',
+};
+
 const Auth = (props: Props) => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isSignup, setIsSignup] = useState(false);
 
+	const [formData, setFormData] = useState(initialState);
+
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const handleSubmit = () => {};
-	const handleChange = () => {};
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (isSignup) {
+			dispatch(signup({ formData, navigate }));
+		} else {
+			dispatch(signin({ formData, navigate }));
+		}
+	};
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value }); //[e.target.value] is matched with the keys in the formData
+	};
 
 	const handleShowPassword = () =>
 		setShowPassword((prevShowPassword) => !prevShowPassword); //Previous state
@@ -38,15 +58,14 @@ const Auth = (props: Props) => {
 	};
 
 	const googleSuccess = async (res: any) => {
+		console.log(res);
 		try {
 			await fetchGoogleCredentials(res.access_token).then((response) => {
-				const token = {
-					exp: res.expires_in,
-					...response,
-				};
-				// console.log(tokenExp);
-				// console.log(credentials);
-				dispatch({ type: 'AUTH', data: token });
+				console.log(response);
+				dispatch({
+					type: 'AUTH',
+					data: { result: response, token: res.expires_in },
+				});
 				navigate('/');
 			});
 		} catch (error) {

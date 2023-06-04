@@ -1,12 +1,13 @@
 type PostProps = {
 	_id?: number;
 	createdAt?: Date;
-	likeCount?: number;
-	creator: string;
+	likes?: [String];
+	creator?: string;
 	title: string;
 	message: string;
 	tags: string[];
 	selectedFile: string;
+	name: string;
 };
 
 interface IAction {
@@ -19,4 +20,12 @@ interface IDelete {
 	payload: number;
 }
 
-export { IAction, IDelete, PostProps };
+type formData = {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+};
+
+export { IAction, IDelete, PostProps, formData };

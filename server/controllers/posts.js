@@ -14,7 +14,11 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
 	const post = req.body;
 
-	const newPost = new PostMessage(post);
+	const newPost = new PostMessage({
+		...post,
+		creator: req.userId,
+		createdAt: new Date().toISOString(),
+	});
 
 	try {
 		await newPost.save();
@@ -53,16 +57,30 @@ const deletePost = async (req, res) => {
 
 const likePost = async (req, res) => {
 	const { id } = req.params;
+
+	if (!req.userId) {
+		res.json({ message: 'Unauthenticated' });
+	}
+
 	if (!mongoose.Types.ObjectId.isValid(id))
 		return res.status(404).send('Post does not exist!');
+
 	const post = await PostMessage.findById(id);
-	const updatedPost = await PostMessage.findByIdAndUpdate(
-		id,
-		{
-			likeCount: post.likeCount + 1,
-		},
-		{ new: true },
-	);
+
+	const index = post.likes.findIndex((id) => id === String(req.userId));
+
+	if (index === -1) {
+		// Like post
+		post.likes.push(req.userId);
+	} else {
+		// Dislike
+		post.likes = post.likes.filter((id) => id !== String(req.userId)); // Returns all the likes except the like from req.userId
+	}
+
+	const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+		new: true,
+	});
+
 	res.json(updatedPost);
 };
 

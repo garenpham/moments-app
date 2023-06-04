@@ -1,14 +1,5 @@
 import axios from 'axios';
-import { PostProps } from '../types';
-
-const url = process.env.REACT_APP_SERVER_URL || '';
-
-const fetchPosts = () => axios.get(url);
-const createPost = (newPost: PostProps) => axios.post(url, newPost);
-const updatePost = (id: number, updatedPost: PostProps) =>
-	axios.patch(`${url}/${id}`, updatedPost);
-const deletePost = (id: number) => axios.delete(`${url}/${id}`);
-const likePost = (id: number) => axios.patch(`${url}/${id}/likePost`);
+import { PostProps, formData } from '../types';
 
 const fetchGoogleCredentials = (token: string) =>
 	axios
@@ -26,11 +17,43 @@ const fetchGoogleCredentials = (token: string) =>
 		})
 		.catch((err) => console.log(err));
 
+const API = axios.create({ baseURL: process.env.REACT_APP_SERVER_URL });
+
+API.interceptors.request.use((req) => {
+	if (localStorage.getItem('profile')) {
+		const token = JSON.parse(localStorage.getItem('profile')!).token;
+
+		if (token.length) {
+			req.headers.Authorization = `Bearer ${token}`;
+		} else {
+			req.headers.Authorization = JSON.parse(
+				localStorage.getItem('profile')!,
+			).result.id;
+		}
+	}
+
+	// console.log(req);
+
+	return req;
+});
+
+const fetchPosts = () => API.get('/posts'); // === axios.get(`${baseURL}/posts`)
+const createPost = (newPost: PostProps) => API.post('/posts', newPost);
+const updatePost = (id: number, updatedPost: PostProps) =>
+	API.patch(`/posts/${id}`, updatedPost);
+const deletePost = (id: number) => API.delete(`/posts/${id}`);
+const likePost = (id: number) => API.patch(`/posts/${id}/likePost`);
+
+const signIn = (formData: formData) => API.post('/user/signin', formData);
+const signUp = (formData: formData) => API.post('/user/signup', formData);
+
 export {
 	createPost,
 	deletePost,
 	fetchGoogleCredentials,
 	fetchPosts,
 	likePost,
+	signIn,
+	signUp,
 	updatePost,
 };

@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import memories from '../../images/memories.png';
 import styles from './styles';
 
 type Props = {};
@@ -52,7 +51,7 @@ const Navbar = (props: Props) => {
 					<Box
 						component="img"
 						sx={styles.image}
-						src={memories}
+						src={window.location.origin + '/logo.png'}
 						alt="memories"
 					/>
 				</Box>
@@ -64,14 +63,14 @@ const Navbar = (props: Props) => {
 							sx={styles.profile}>
 							<Avatar
 								sx={styles.purple}
-								alt={user.name}
-								src={user.picture}>
-								{user.name.charAt(0)}
+								alt={user.result.name}
+								src={user.result?.picture}>
+								{user.result.name.charAt(0)}
 							</Avatar>
 							<Typography
 								sx={styles.userName}
 								variant="h6">
-								{user.name}
+								{user.result.name}
 							</Typography>{' '}
 							<Button
 								variant="contained"

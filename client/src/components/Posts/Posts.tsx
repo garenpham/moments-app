@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import { useAppSelector } from '../../hooks';
 import { PostProps } from '../../types';
 import Post from './Post/Post';
@@ -22,13 +22,13 @@ function Posts({ setCurrentId }: Props) {
 			{posts.map(
 				({
 					_id,
-					creator,
+					name,
 					title,
 					message,
 					tags,
 					selectedFile,
+					likes,
 					createdAt,
-					likeCount,
 				}: PostProps) => (
 					<Grid
 						key={_id}
@@ -37,13 +37,13 @@ function Posts({ setCurrentId }: Props) {
 						sm={6}>
 						<Post
 							_id={_id}
-							creator={creator}
+							name={name}
 							title={title}
 							message={message}
 							tags={tags}
 							selectedFile={selectedFile}
+							likes={likes}
 							createdAt={createdAt}
-							likeCount={likeCount}
 							setCurrentId={setCurrentId}
 						/>
 					</Grid>

@@ -1,6 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined';
 import {
 	Box,
 	Button,
@@ -11,6 +12,7 @@ import {
 	Typography,
 } from '@mui/material';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { deletePost, likePost } from '../../../actions/posts';
 import { useAppDispatch } from '../../../hooks';
 import { PostProps } from '../../../types';
@@ -22,27 +24,68 @@ type Props = PostProps & {
 
 function Post({
 	_id,
-	creator,
+	name,
 	title,
 	message,
 	tags,
 	selectedFile,
 	createdAt,
-	likeCount,
+	likes,
 	setCurrentId,
 }: Props) {
 	const dispatch = useAppDispatch();
+
+	const [user, setUser] = useState(
+		JSON.parse(localStorage.getItem('profile')!),
+	);
+
+	useEffect(() => {
+		setUser(JSON.parse(localStorage.getItem('profile')!));
+	}, [user]);
+
+	const Likes = () => {
+		if (likes)
+			if (likes.length > 0) {
+				return likes.find(
+					(like) => like === (user?.result.id || user?.result._id),
+				) ? (
+					<>
+						<ThumbUpAltIcon fontSize="small" />
+						&nbsp;
+						{likes.length > 2
+							? `You and ${likes.length - 1} others`
+							: `${likes.length} like${likes.length > 1 ? 's' : ''}`}
+					</>
+				) : (
+					<>
+						<ThumbUpAltOutlined fontSize="small" />
+						&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}
+					</>
+				);
+			}
+
+		return (
+			<>
+				<ThumbUpAltOutlined fontSize="small" />
+				&nbsp;Like
+			</>
+		);
+	};
+
 	return (
 		<Card sx={styles.card}>
 			<CardMedia
 				sx={styles.media}
-				image={selectedFile}
+				image={
+					selectedFile ||
+					'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
+				}
 				title={title}
 			/>
 			<Box
 				component={'div'}
 				sx={styles.overlay}>
-				<Typography variant="h6">{creator}</Typography>
+				<Typography variant="h6">{name}</Typography>
 				<Typography variant="body2">{moment(createdAt).fromNow()}</Typography>
 			</Box>
 
@@ -53,9 +96,7 @@ function Post({
 					style={{ color: 'white' }}
 					size="small"
 					onClick={() => {
-						if (_id) {
-							setCurrentId(_id);
-						}
+						setCurrentId(_id!);
 					}}>
 					<MoreHorizIcon fontSize="small" />
 				</Button>
@@ -91,23 +132,18 @@ function Post({
 				<Button
 					size="small"
 					color="primary"
+					disabled={!user?.result}
 					onClick={() => {
-						if (_id) {
-							dispatch(likePost(_id));
-						}
+						dispatch(likePost(_id!));
 					}}>
-					<ThumbUpAltIcon fontSize="small" />
-					Like &nbsp;
-					{likeCount}
+					<Likes />
 				</Button>
 
 				<Button
 					size="small"
 					color="primary"
 					onClick={() => {
-						if (_id) {
-							dispatch(deletePost(_id));
-						}
+						dispatch(deletePost(_id!));
 					}}>
 					<DeleteIcon fontSize="small" />
 					Delete

@@ -4,6 +4,7 @@ import {} from 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import postRoutes from './routes/posts.js';
+import userRoutes from './routes/users.js';
 
 const app = express();
 
@@ -11,7 +12,8 @@ app.use(bodyParser.json({ limit: '40mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '40mb', extended: true }));
 app.use(cors());
 
-app.use('/', postRoutes);
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
 const PORT = process.env.PORT || 4000;
 
@@ -21,6 +23,8 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then(() =>
-		app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)),
+		app.listen(PORT, () => {
+			console.log(`Server running on port: ${PORT}`);
+		}),
 	)
 	.catch((error) => console.log(`${error} did not connect`));

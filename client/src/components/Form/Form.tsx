@@ -13,36 +13,45 @@ type Props = {
 
 function Form({ currentId, setCurrentId }: Props) {
 	const [postData, setPostData] = useState({
-		creator: '',
 		title: '',
 		message: '',
 		tags: [''],
 		selectedFile: '',
 	});
 
+	const [user, setUser] = useState(
+		JSON.parse(localStorage.getItem('profile')!),
+	);
+
 	const post = useAppSelector((state) =>
 		currentId ? state.posts.find((p: PostProps) => p._id === currentId) : null,
 	);
+
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		if (post) setPostData(post);
 	}, [post]);
 
+	useEffect(() => {
+		setUser(JSON.parse(localStorage.getItem('profile')!));
+	}, [user]);
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (currentId) {
-			dispatch(updatePost(currentId, postData));
+			dispatch(
+				updatePost(currentId, { name: user?.result?.name, ...postData }),
+			);
 		} else {
-			dispatch(createPost(postData));
+			dispatch(createPost({ name: user?.result?.name, ...postData }));
 		}
 		clear();
 		// console.log(postData);
 	};
 	const clear = () => {
 		setPostData({
-			creator: '',
 			title: '',
 			message: '',
 			tags: [''],
@@ -50,6 +59,17 @@ function Form({ currentId, setCurrentId }: Props) {
 		});
 		setCurrentId(0);
 	};
+
+	if (!user?.result?.name)
+		return (
+			<Paper sx={styles.paper}>
+				<Typography
+					variant="h6"
+					align="center">
+					Please Sign In to upload and share your amazing moments with us!
+				</Typography>
+			</Paper>
+		);
 
 	return (
 		<Paper sx={styles.paper}>
@@ -62,16 +82,6 @@ function Form({ currentId, setCurrentId }: Props) {
 				<Typography variant="h6">
 					{!currentId ? 'Upload a Memorable Moment' : 'Editing Post'}
 				</Typography>
-				<TextField
-					name="creator"
-					variant="outlined"
-					label="Creator"
-					fullWidth
-					value={postData.creator}
-					onChange={(e) =>
-						setPostData({ ...postData, creator: e.target.value })
-					}
-				/>
 				<TextField
 					name="title"
 					variant="outlined"
