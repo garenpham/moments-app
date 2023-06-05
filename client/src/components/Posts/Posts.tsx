@@ -29,6 +29,7 @@ function Posts({ setCurrentId }: Props) {
 					selectedFile,
 					likes,
 					createdAt,
+					creator,
 				}: PostProps) => (
 					<Grid
 						key={_id}
@@ -45,6 +46,7 @@ function Posts({ setCurrentId }: Props) {
 							likes={likes}
 							createdAt={createdAt}
 							setCurrentId={setCurrentId}
+							creator={creator}
 						/>
 					</Grid>
 				),

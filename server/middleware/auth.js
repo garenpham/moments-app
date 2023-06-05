@@ -21,7 +21,6 @@ const auth = async (req, res, next) => {
 		}
 		next(); //next is a callback function that we have to call after we are done with the middleware
 	} catch (error) {
-		console.log(req._id);
 		console.log(error);
 	}
 };

@@ -23,7 +23,7 @@ API.interceptors.request.use((req) => {
 	if (localStorage.getItem('profile')) {
 		const token = JSON.parse(localStorage.getItem('profile')!).token;
 
-		if (token.length) {
+		if (token) {
 			req.headers.Authorization = `Bearer ${token}`;
 		} else {
 			req.headers.Authorization = JSON.parse(

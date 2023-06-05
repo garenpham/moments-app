@@ -23,7 +23,7 @@ const createPost = (post: PostProps) => async (dispatch: Dispatch<IAction>) => {
 	try {
 		const { data } = await api.createPost(post);
 		dispatch({ type: CREATE, payload: data });
-		console.log(post);
+		// console.log(post);
 	} catch (error: any) {
 		console.log(error.message);
 	}

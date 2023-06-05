@@ -28,4 +28,11 @@ type formData = {
 	confirmPassword: string;
 };
 
-export { IAction, IDelete, PostProps, formData };
+type decodedToken = {
+	email: string;
+	exp: number;
+	iat: number;
+	id: string;
+};
+
+export { IAction, IDelete, PostProps, decodedToken, formData };

@@ -58,13 +58,13 @@ const Auth = (props: Props) => {
 	};
 
 	const googleSuccess = async (res: any) => {
-		console.log(res);
+		// console.log(res);
 		try {
 			await fetchGoogleCredentials(res.access_token).then((response) => {
-				console.log(response);
+				// console.log(response);
 				dispatch({
 					type: 'AUTH',
-					data: { result: response, token: res.expires_in },
+					data: { result: response, token: null },
 				});
 				navigate('/');
 			});

@@ -6,9 +6,11 @@ import {
 	Toolbar,
 	Typography,
 } from '@mui/material';
+import decode from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
+import { decodedToken } from '../../types';
 import styles from './styles';
 
 type Props = {};
@@ -28,7 +30,14 @@ const Navbar = (props: Props) => {
 	};
 
 	useEffect(() => {
+		if (user?.token) {
+			const token = user?.token;
+			const decodedToken: decodedToken = decode(token);
+			if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+		}
+
 		setUser(profile ? JSON.parse(profile) : null);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location, profile]);
 
 	return (
@@ -75,7 +84,7 @@ const Navbar = (props: Props) => {
 							<Button
 								variant="contained"
 								sx={styles.logout}
-								color="secondary"
+								color="error"
 								onClick={logout}>
 								Sign out
 							</Button>

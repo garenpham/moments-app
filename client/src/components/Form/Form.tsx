@@ -137,7 +137,7 @@ function Form({ currentId, setCurrentId }: Props) {
 				</Button>
 				<Button
 					variant="contained"
-					color="secondary"
+					color="error"
 					size="small"
 					onClick={clear}
 					fullWidth>

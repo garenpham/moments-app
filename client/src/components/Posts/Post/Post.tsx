@@ -32,6 +32,7 @@ function Post({
 	createdAt,
 	likes,
 	setCurrentId,
+	creator,
 }: Props) {
 	const dispatch = useAppDispatch();
 
@@ -91,19 +92,6 @@ function Post({
 
 			<Box
 				component="div"
-				sx={styles.overlay2}>
-				<Button
-					style={{ color: 'white' }}
-					size="small"
-					onClick={() => {
-						setCurrentId(_id!);
-					}}>
-					<MoreHorizIcon fontSize="small" />
-				</Button>
-			</Box>
-
-			<Box
-				component="div"
 				sx={styles.details}>
 				<Typography
 					variant="body2"
@@ -139,15 +127,31 @@ function Post({
 					<Likes />
 				</Button>
 
-				<Button
-					size="small"
-					color="primary"
-					onClick={() => {
-						dispatch(deletePost(_id!));
-					}}>
-					<DeleteIcon fontSize="small" />
-					Delete
-				</Button>
+				{(user?.result.id === creator || user?.result._id === creator) && (
+					<>
+						<Box
+							component="div"
+							sx={styles.overlay2}>
+							<Button
+								style={{ color: 'white' }}
+								size="small"
+								onClick={() => {
+									setCurrentId(_id!);
+								}}>
+								<MoreHorizIcon fontSize="small" />
+							</Button>
+						</Box>
+						<Button
+							size="small"
+							color="primary"
+							onClick={() => {
+								dispatch(deletePost(_id!));
+							}}>
+							<DeleteIcon fontSize="small" />
+							Delete
+						</Button>
+					</>
+				)}
 			</CardActions>
 		</Card>
 	);
