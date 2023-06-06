@@ -1,9 +1,20 @@
-import { Container, Grid, Grow } from '@mui/material';
+import {
+	AppBar,
+	Button,
+	Container,
+	Grid,
+	Grow,
+	Paper,
+	TextField,
+} from '@mui/material';
+import { MuiChipsInput } from 'mui-chips-input';
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getPosts } from '../../actions/posts';
 import { useAppDispatch } from '../../hooks';
 import Form from '../Form/Form';
+import Paginate from '../Pagination/Paginate';
 import Posts from '../Posts/Posts';
-import { getPosts } from '../../actions/posts';
 import styles from './styles';
 
 type Props = {};
@@ -19,7 +30,7 @@ const Home = (props: Props) => {
 		<Grow in>
 			<Container>
 				<Grid
-					sx={styles.mainContainer}
+					sx={styles.gridContainer}
 					container
 					justifyContent="space-between"
 					alignItems="stretch"
@@ -38,6 +49,9 @@ const Home = (props: Props) => {
 							currentId={currentId}
 							setCurrentId={setCurrentId}
 						/>
+						<Paper elevation={6}>
+							<Paginate />
+						</Paper>
 					</Grid>
 				</Grid>
 			</Container>

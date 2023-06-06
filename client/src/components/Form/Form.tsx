@@ -1,6 +1,7 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64';
+import { useLocation } from 'react-router-dom';
 import { createPost, updatePost } from '../../actions/posts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PostProps } from '../../types';
@@ -33,9 +34,10 @@ function Form({ currentId, setCurrentId }: Props) {
 		if (post) setPostData(post);
 	}, [post]);
 
+	const location = useLocation();
 	useEffect(() => {
 		setUser(JSON.parse(localStorage.getItem('profile')!));
-	}, [user]);
+	}, [location]);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

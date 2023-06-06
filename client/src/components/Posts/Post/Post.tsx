@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { deletePost, likePost } from '../../../actions/posts';
 import { useAppDispatch } from '../../../hooks';
 import { PostProps } from '../../../types';
@@ -36,13 +37,14 @@ function Post({
 }: Props) {
 	const dispatch = useAppDispatch();
 
+	const location = useLocation();
 	const [user, setUser] = useState(
 		JSON.parse(localStorage.getItem('profile')!),
 	);
 
 	useEffect(() => {
 		setUser(JSON.parse(localStorage.getItem('profile')!));
-	}, [user]);
+	}, [location]);
 
 	const Likes = () => {
 		if (likes)
