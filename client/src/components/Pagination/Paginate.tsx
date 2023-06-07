@@ -1,14 +1,14 @@
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import styles from './styles';
 import { Link } from 'react-router-dom';
+import styles from './styles';
 
 type Props = {};
 
 const Paginate = (props: Props) => {
 	return (
 		<Pagination
-			classes={{ ul: styles.ul }}
+			sx={styles.row}
 			count={5}
 			page={1}
 			variant="outlined"

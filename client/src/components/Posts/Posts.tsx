@@ -11,6 +11,8 @@ type Props = {
 function Posts({ setCurrentId }: Props) {
 	const posts = useAppSelector((state) => state.posts);
 
+	// console.log(posts);
+
 	return !posts.length ? (
 		<CircularProgress />
 	) : (
