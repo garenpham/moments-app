@@ -35,4 +35,22 @@ type decodedToken = {
 	id: string;
 };
 
-export { IAction, IDelete, PostProps, decodedToken, formData };
+type searchQueryProps = {
+	search: string;
+	tags: string;
+};
+
+interface ISearchAction {
+	type: string;
+	payload: searchQueryProps;
+}
+
+export {
+	IAction,
+	IDelete,
+	ISearchAction,
+	PostProps,
+	decodedToken,
+	formData,
+	searchQueryProps,
+};

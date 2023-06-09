@@ -3,6 +3,7 @@ import {
 	CREATE,
 	DELETE,
 	FETCH_ALL,
+	FETCH_SEARCHES,
 	LIKE,
 	UPDATE,
 } from '../constants/actionTypes';
@@ -11,6 +12,8 @@ import { PostProps } from '../types';
 const posts = (posts = [], action: AnyAction) => {
 	switch (action.type) {
 		case FETCH_ALL:
+			return action.payload;
+		case FETCH_SEARCHES:
 			return action.payload;
 		case CREATE:
 			return [...posts, action.payload];

@@ -11,6 +11,26 @@ const getPosts = async (req, res) => {
 	}
 };
 
+/**
+ * QUERY -> /posts?page=1 -> page = 1
+ * PARAMS -> /posts/:id -> /posts/123 -> id = 123
+ */
+
+const getSearchedPosts = async (req, res) => {
+	const { keywords, tags } = req.query;
+	try {
+		const title = new RegExp(keywords, 'i'); // 'i' -> case insensitive (TEST test Test === test)
+		const posts = await PostMessage.find({
+			$or: [{ title }, { tags: { $in: tags.split(',') } }],
+		});
+
+		res.json({ data: posts });
+	} catch (error) {
+		// console.log(req.query);
+		res.status(404).json({ message: error.message });
+	}
+};
+
 const createPost = async (req, res) => {
 	const post = req.body;
 
@@ -84,4 +104,11 @@ const likePost = async (req, res) => {
 	res.json(updatedPost);
 };
 
-export { createPost, deletePost, getPosts, likePost, updatePost };
+export {
+	createPost,
+	deletePost,
+	getPosts,
+	getSearchedPosts,
+	likePost,
+	updatePost,
+};

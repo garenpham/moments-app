@@ -10,7 +10,7 @@ import {
 import { MuiChipsInput, MuiChipsInputProps } from 'mui-chips-input';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getPosts } from '../../actions/posts';
+import { getPosts, getSearchedPosts } from '../../actions/posts';
 import { useAppDispatch } from '../../hooks';
 import Form from '../Form/Form';
 import Paginate from '../Pagination/Paginate';
@@ -32,19 +32,36 @@ const Home = (props: Props) => {
 	const page = query.get('page') || 1;
 	const searchQuery = query.get('searchQuery');
 	const [search, setSearch] = useState('');
-	const [tags, setTags] = useState([]);
+	const [tags, setTags] = useState<string[]>([]);
 
 	useEffect(() => {
 		dispatch(getPosts());
 	}, [dispatch]);
 
+	const searchPost = () => {
+		if (search.trim() || tags) {
+			dispatch(getSearchedPosts({ search, tags: tags.join(',') }));
+			navigate(
+				`/posts/search?keywords=${search || 'none'}&tags=${tags.join(',')}`,
+			);
+		} else {
+			navigate('/');
+		}
+		// console.log(tags);
+	};
+
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
+			searchPost();
 		}
 	};
 
-	const handleAddChip = (chip: string) => {};
-	const handleDeleteChip = (chip: string) => {};
+	const handleAddTag = (tag: string) => {
+		setTags([...tags, tag]);
+	};
+	const handleDeleteTag = (tagToDelete: string) => {
+		setTags(tags.filter((tag) => tag !== tagToDelete));
+	};
 
 	return (
 		<Grow in>
@@ -74,7 +91,7 @@ const Home = (props: Props) => {
 							<TextField
 								name="search"
 								variant="outlined"
-								label="Search Memories"
+								label="Search Keywords"
 								onKeyDown={handleKeyPress}
 								fullWidth
 								value={search}
@@ -85,9 +102,17 @@ const Home = (props: Props) => {
 							<MuiChipsInput
 								style={{ margin: '10px 0' }}
 								value={tags}
-								onAddChip={(chip) => handleAddChip(chip)}
-								onDeleteChip={(chip) => handleDeleteChip(chip)}
+								onAddChip={(chip) => handleAddTag(chip)}
+								onDeleteChip={(chip) => handleDeleteTag(chip)}
+								label="Search Tags"
+								variant="outlined"
 							/>
+							<Button
+								onClick={searchPost}
+								variant="contained"
+								color="primary">
+								Search
+							</Button>
 						</AppBar>
 						<Form
 							currentId={currentId}

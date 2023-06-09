@@ -27,6 +27,7 @@ const Navbar = (props: Props) => {
 		dispatch({ type: 'LOGOUT' });
 		navigate('/');
 		setUser(null);
+		window.location.reload();
 	};
 
 	useEffect(() => {
@@ -60,7 +61,7 @@ const Navbar = (props: Props) => {
 					<Box
 						component="img"
 						sx={styles.image}
-						src={window.location.origin + '/logo.png'}
+						src={window.location.origin + '/moments-Logo.png'}
 						alt="memories"
 					/>
 				</Box>

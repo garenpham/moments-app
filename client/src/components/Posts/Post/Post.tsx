@@ -76,7 +76,10 @@ function Post({
 	};
 
 	return (
-		<Card sx={styles.card}>
+		<Card
+			sx={styles.card}
+			raised
+			elevation={6}>
 			<CardMedia
 				sx={styles.media}
 				image={

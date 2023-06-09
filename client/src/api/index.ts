@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PostProps, formData } from '../types';
+import { PostProps, formData, searchQueryProps } from '../types';
 
 const fetchGoogleCredentials = (token: string) =>
 	axios
@@ -38,6 +38,12 @@ API.interceptors.request.use((req) => {
 });
 
 const fetchPosts = () => API.get('/posts'); // === axios.get(`${baseURL}/posts`)
+const fetchSearchedPosts = (searchQuery: searchQueryProps) =>
+	API.get(
+		`/posts/search?keywords=${searchQuery.search || 'none'}&tags=${
+			searchQuery.tags
+		}`,
+	);
 const createPost = (newPost: PostProps) => API.post('/posts', newPost);
 const updatePost = (id: number, updatedPost: PostProps) =>
 	API.patch(`/posts/${id}`, updatedPost);
@@ -52,6 +58,7 @@ export {
 	deletePost,
 	fetchGoogleCredentials,
 	fetchPosts,
+	fetchSearchedPosts,
 	likePost,
 	signIn,
 	signUp,

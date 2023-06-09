@@ -37,7 +37,9 @@ function Posts({ setCurrentId }: Props) {
 						key={_id}
 						item
 						xs={12}
-						sm={6}>
+						sm={12}
+						md={6}
+						lg={3}>
 						<Post
 							_id={_id}
 							name={name}
