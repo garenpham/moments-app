@@ -1,7 +1,8 @@
 const styles = {
-	row: {
-		ul: { justifyContent: 'space-around' },
-	},
+  ul: { justifyContent: 'space-around' },
+  borderRadius: 4,
+  marginTop: '1rem',
+  padding: '16px',
 };
 
 export default styles;
