@@ -22,16 +22,16 @@ const styles = {
     margin: '10px',
     flex: 1,
   },
-  sectionDetails: { margin: '20px', cursor: 'pointer' },
   imageSection: {
     marginLeft: '20px',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
   },
+  sectionDetails: { margin: '20px', cursor: 'pointer' },
   recommendedPosts: {
     display: 'flex',
-    overflow: 'hidden',
+    overflow: 'scroll',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
@@ -44,6 +44,15 @@ const styles = {
     borderRadius: '15px',
     height: '39vh',
   },
-};
+  commentsOuterContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  commentsInnerContainer: {
+    height: '200px',
+    overflowY: 'auto',
+    marginRight: '30px',
+  },
+}
 
 export default styles;

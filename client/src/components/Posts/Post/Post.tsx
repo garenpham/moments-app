@@ -13,16 +13,16 @@ import {
   Typography,
 } from '@mui/material';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { deletePost, likePost } from '../../../actions/posts';
-import { useAppDispatch } from '../../../hooks';
-import { PostProps } from '../../../types';
-import styles from './styles';
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { deletePost, likePost } from '../../../actions/posts'
+import { useAppDispatch } from '../../../hooks'
+import { PostProps } from '../../../types'
+import styles from './styles'
 
 type Props = PostProps & {
-  setCurrentId: React.Dispatch<React.SetStateAction<number>>;
-};
+  setCurrentId: React.Dispatch<React.SetStateAction<number>>
+}
 
 function Post({
   _id,
@@ -36,50 +36,63 @@ function Post({
   setCurrentId,
   creator,
 }: Props) {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('profile')!),
-  );
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')!))
+
+  const [clientLikes, setClientLikes] = React.useState(likes)
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('profile')!));
-  }, [location]);
+    setUser(JSON.parse(localStorage.getItem('profile')!))
+  }, [location])
+
+  const userId = user?.result.id || user?.result._id
+  const hasLikedPost = likes?.find((like) => like === userId)
+
+  const handleLike = async () => {
+    dispatch(likePost(_id!))
+    if (hasLikedPost) {
+      setClientLikes(likes?.filter((id) => id !== userId))
+    } else {
+      setClientLikes([likes, userId])
+    }
+  }
 
   const Likes = () => {
-    if (likes)
-      if (likes.length > 0) {
-        return likes.find(
-          like => like === (user?.result.id || user?.result._id),
-        ) ? (
+    if (clientLikes)
+      if (clientLikes.length > 0) {
+        return clientLikes.find((like) => like === userId) ? (
           <>
-            <ThumbUpAltIcon fontSize="small" />
+            <ThumbUpAltIcon fontSize='small' />
             &nbsp;
-            {likes.length > 2
-              ? `You and ${likes.length - 1} others`
-              : `${likes.length} like${likes.length > 1 ? 's' : ''}`}
+            {clientLikes.length > 2
+              ? `You and ${clientLikes.length - 1} others`
+              : `${clientLikes.length} like${
+                  clientLikes.length > 1 ? 's' : ''
+                }`}
           </>
         ) : (
           <>
-            <ThumbUpAltOutlined fontSize="small" />
-            &nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}
+            <ThumbUpAltOutlined fontSize='small' />
+            &nbsp;{clientLikes.length}{' '}
+            {clientLikes.length === 1 ? 'Like' : 'clientLikes'}
           </>
-        );
+        )
       }
 
     return (
       <>
-        <ThumbUpAltOutlined fontSize="small" />
+        <ThumbUpAltOutlined fontSize='small' />
         &nbsp;Like
       </>
-    );
-  };
+    )
+  }
 
   const openPost = () => {
-    navigate(`/posts/${_id}`);
-  };
+    navigate(`/posts/${_id}`)
+  }
 
   return (
     <Card sx={styles.card} raised elevation={6}>
@@ -93,63 +106,61 @@ function Post({
           title={title}
         />
         <Box component={'div'} sx={styles.overlay}>
-          <Typography variant="h6">{name}</Typography>
-          <Typography variant="body2">{moment(createdAt).fromNow()}</Typography>
+          <Typography variant='h6'>{name}</Typography>
+          <Typography variant='body2'>{moment(createdAt).fromNow()}</Typography>
         </Box>
 
-        <Box component="div" sx={styles.details}>
-          <Typography variant="body2" color="textSecondary">
-            {tags.map(tag => `#${tag} `)}
+        <Box component='div' sx={styles.details}>
+          <Typography variant='body2' color='textSecondary'>
+            {tags.map((tag) => `#${tag} `)}
           </Typography>
         </Box>
 
-        <Typography sx={styles.title} variant="h5" gutterBottom>
+        <Typography sx={styles.title} variant='h5' gutterBottom>
           {title}
         </Typography>
 
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant='body2' color='textSecondary' component='p'>
             {message}
           </Typography>
         </CardContent>
       </ButtonBase>
       <CardActions sx={styles.cardActions}>
         <Button
-          size="small"
-          color="primary"
+          size='small'
+          color='primary'
           disabled={!user?.result}
-          onClick={() => {
-            dispatch(likePost(_id!));
-          }}>
+          onClick={handleLike}>
           <Likes />
         </Button>
 
         {(user?.result.id === creator || user?.result._id === creator) && (
           <>
-            <Box component="div" sx={styles.overlay2}>
+            <Box component='div' sx={styles.overlay2}>
               <Button
                 style={{ color: 'white' }}
-                size="small"
+                size='small'
                 onClick={() => {
-                  setCurrentId(_id!);
+                  setCurrentId(_id!)
                 }}>
-                <MoreHorizIcon fontSize="small" />
+                <MoreHorizIcon fontSize='small' />
               </Button>
             </Box>
             <Button
-              size="small"
-              color="primary"
+              size='small'
+              color='primary'
               onClick={() => {
-                dispatch(deletePost(_id!));
+                dispatch(deletePost(_id!))
               }}>
-              <DeleteIcon fontSize="small" />
+              <DeleteIcon fontSize='small' />
               Delete
             </Button>
           </>
         )}
       </CardActions>
     </Card>
-  );
+  )
 }
 
 export default Post;

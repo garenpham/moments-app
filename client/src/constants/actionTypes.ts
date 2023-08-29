@@ -5,15 +5,17 @@ const FETCH_SEARCHES = 'FETCH_SEARCHES';
 const UPDATE = 'UPDATE';
 const DELETE = 'DELETE';
 const LIKE = 'LIKE';
+const COMMENT = 'COMMENT'
 
-const START_LOADING = 'START_LOADING';
-const END_LOADING = 'END_LOADING';
+const START_LOADING = 'START_LOADING'
+const END_LOADING = 'END_LOADING'
 
-const AUTH = 'AUTH';
-const LOGOUT = 'LOGOUT';
+const AUTH = 'AUTH'
+const LOGOUT = 'LOGOUT'
 
 export {
   AUTH,
+  COMMENT,
   CREATE,
   DELETE,
   END_LOADING,
@@ -24,4 +26,5 @@ export {
   LOGOUT,
   START_LOADING,
   UPDATE,
-};
+}
+

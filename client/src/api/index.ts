@@ -48,11 +48,14 @@ const updatePost = (id: number, updatedPost: PostProps) =>
   API.patch(`/posts/${id}`, updatedPost);
 const deletePost = (id: number) => API.delete(`/posts/${id}`);
 const likePost = (id: number) => API.patch(`/posts/${id}/likePost`);
+const commentPost = (value: string, id: number) =>
+  API.post(`/posts/${id}/commentPost`, { value })
 
-const signIn = (formData: formData) => API.post('/user/signin', formData);
-const signUp = (formData: formData) => API.post('/user/signup', formData);
+const signIn = (formData: formData) => API.post('/user/signin', formData)
+const signUp = (formData: formData) => API.post('/user/signup', formData)
 
 export {
+  commentPost,
   createPost,
   deletePost,
   fetchGoogleCredentials,
@@ -63,4 +66,5 @@ export {
   signIn,
   signUp,
   updatePost,
-};
+}
+
