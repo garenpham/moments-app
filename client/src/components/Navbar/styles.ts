@@ -16,6 +16,7 @@ const styles = {
       flexDirection: 'column',
       justifyContent: 'center',
       padding: '24px 10px',
+      borderRadius: 4,
     },
   },
   heading: {
