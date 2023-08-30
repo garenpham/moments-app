@@ -21,6 +21,9 @@ const styles = {
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
+    [theme.breakpoints.down('md')]: {
+      marginTop: '2rem',
+    },
   },
   imageSection: {
     marginLeft: '20px',
@@ -51,11 +54,17 @@ const styles = {
   commentsOuterContainer: {
     display: 'flex',
     justifyContent: 'space-between',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+    },
   },
   commentsInnerContainer: {
     height: '200px',
     overflowY: 'auto',
     marginRight: '30px',
+    [theme.breakpoints.down('md')]: {
+      height: 'auto',
+    },
   },
 }
 

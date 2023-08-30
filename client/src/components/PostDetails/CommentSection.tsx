@@ -49,7 +49,7 @@ const CommentSection = ({ post }: Props) => {
           <div ref={commentsRef} />
         </Box>
         {user?.result?.name && (
-          <div style={{ width: '70%' }}>
+          <div className='w-full lg:w-[64%]'>
             <Typography gutterBottom variant='h6'>
               Write a Comment
             </Typography>
