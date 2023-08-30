@@ -1,10 +1,11 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 // import FileBase from 'react-file-base64';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { createPost, updatePost } from '../../actions/posts';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { PostProps } from '../../types';
+import imageCompression from 'browser-image-compression'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { createPost, updatePost } from '../../actions/posts'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { PostProps } from '../../types'
 import { convertBase64 } from '../../utils/convertBase64'
 import styles from './styles'
 
@@ -73,10 +74,23 @@ function Form({ currentId, setCurrentId }: Props) {
     )
 
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const options = {
+      maxSizeMB: 1,
+      useWebWorker: true,
+    }
     const file = e.currentTarget.files![0]
-    const base64 = (await convertBase64(file)) as string
-    // console.log(typeof(base64))
-    setPostData({ ...postData, selectedFile: base64 })
+    try {
+      const compressedFile = await imageCompression(file, options)
+      const base64 = (await convertBase64(compressedFile)) as string
+      setPostData({ ...postData, selectedFile: base64 })
+      // console.log(
+      //   'compressedFile instanceof Blob',
+      //   compressedFile instanceof Blob
+      // ) // true
+      // console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`) // smaller than maxSizeMB
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
