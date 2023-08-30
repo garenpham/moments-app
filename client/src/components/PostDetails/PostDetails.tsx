@@ -9,10 +9,11 @@ import moment from 'moment';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPost, getSearchedPosts } from '../../actions/posts';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { PostProps } from '../../types';
-import CommentSection from './CommentSection';
-import styles from './styles';
+import { globalStyles } from '../../constants/globalStyles'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { PostProps } from '../../types'
+import CommentSection from './CommentSection'
+import styles from './styles'
 
 type Props = {}
 
@@ -59,15 +60,17 @@ const PostDetails = (props: Props) => {
               <Typography
                 gutterBottom
                 variant='h6'
-                color='textSecondary'
+                color='primary'
                 component='h2'>
-                {post.tags.map((tag) => `#${tag}`)}
+                {post.tags.map((tag) => `#${tag} `)}
               </Typography>
               <Typography gutterBottom variant='body1' component='p'>
                 {post.message}
               </Typography>
-              <Typography variant='h6'>Created by: {post.name}</Typography>
-              <Typography variant='body1'>
+              <Typography variant='h6'>
+                <span className='font-semibold'>Created by:</span> {post.name}
+              </Typography>
+              <Typography variant='body1' color='textSecondary'>
                 {moment(post.createdAt).fromNow()}
               </Typography>
               <Divider style={{ margin: '20px 0' }} />
@@ -107,6 +110,7 @@ const PostDetails = (props: Props) => {
                 _id,
               }: PostProps) => (
                 <Box
+                  className={`mt-[2rem] m-[1rem] border rounded-xl hover:shadow lg:hover:scale-[1.02] lg:active:scale-100 active:scale-95 ${globalStyles.longTransition}`}
                   component='div'
                   sx={styles.sectionDetails}
                   onClick={() => openPost(_id)}
@@ -114,13 +118,19 @@ const PostDetails = (props: Props) => {
                   <Typography gutterBottom variant='h6'>
                     {title}
                   </Typography>
-                  <Typography gutterBottom variant='subtitle2'>
+                  <Typography
+                    className='font-semibold'
+                    gutterBottom
+                    variant='subtitle2'>
                     {name}
                   </Typography>
                   <Typography gutterBottom variant='subtitle2'>
                     {message}
                   </Typography>
-                  <Typography gutterBottom variant='subtitle1'>
+                  <Typography
+                    className='text-blue-600'
+                    gutterBottom
+                    variant='subtitle1'>
                     {likes && `Likes: ${likes.length}`}
                   </Typography>
                   <img

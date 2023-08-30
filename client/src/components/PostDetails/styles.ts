@@ -12,7 +12,7 @@ const styles = {
   card: {
     display: 'flex',
     width: '100%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexWrap: 'wrap',
       flexDirection: 'column',
     },
@@ -24,19 +24,19 @@ const styles = {
   },
   imageSection: {
     marginLeft: '20px',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       marginLeft: 0,
     },
   },
   sectionDetails: {
-    margin: '20px',
+    padding: '20px',
     cursor: 'pointer',
     maxWidth: '200px',
   },
   recommendedPosts: {
     display: 'flex',
     overflow: 'scroll',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
     },
   },

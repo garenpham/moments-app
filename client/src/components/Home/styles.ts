@@ -4,7 +4,7 @@ const theme = createTheme();
 
 const styles = {
   gridContainer: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexDirection: 'column-reverse',
     },
   },
@@ -14,6 +14,6 @@ const styles = {
     display: 'flex',
     padding: '16px',
   },
-};
+}
 
 export default styles;

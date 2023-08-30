@@ -12,6 +12,11 @@ type Props = {
 const CommentSection = ({ post }: Props) => {
   // console.log(post)
   const [comments, setComments] = React.useState(post?.comments)
+
+  React.useEffect(() => {
+    setComments(post.comments)
+  }, [post])
+
   const [comment, setComment] = React.useState('')
   const user = JSON.parse(localStorage.getItem('profile')!)
 
