@@ -56,7 +56,7 @@ function Post({
     if (hasLikedPost) {
       setClientLikes(likes?.filter((id) => id !== userId))
     } else {
-      setClientLikes([likes, userId])
+      setClientLikes([...likes!, userId])
     }
   }
 
@@ -77,7 +77,7 @@ function Post({
           <>
             <ThumbUpAltOutlined fontSize='small' />
             &nbsp;{clientLikes.length}{' '}
-            {clientLikes.length === 1 ? 'Like' : 'clientLikes'}
+            {clientLikes.length === 1 ? 'Like' : 'Likes'}
           </>
         )
       }
