@@ -1,6 +1,6 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import FileBase from 'react-file-base64';
+// import FileBase from 'react-file-base64';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createPost, updatePost } from '../../actions/posts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -18,62 +18,80 @@ function Form({ currentId, setCurrentId }: Props) {
     message: '',
     tags: [''],
     selectedFile: '',
-  });
+  })
 
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('profile')!),
-  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')!))
 
-  const post = useAppSelector(state =>
+  const post = useAppSelector((state) =>
     currentId
       ? state.posts.posts.find((p: PostProps) => p._id === currentId)
-      : null,
-  );
+      : null
+  )
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (post) setPostData(post);
-  }, [post]);
+    if (post) setPostData(post)
+  }, [post])
 
-  const location = useLocation();
+  const location = useLocation()
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('profile')!));
-  }, [location]);
+    setUser(JSON.parse(localStorage.getItem('profile')!))
+  }, [location])
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (currentId) {
-      dispatch(
-        updatePost(currentId, { name: user?.result?.name, ...postData }),
-      );
+      dispatch(updatePost(currentId, { name: user?.result?.name, ...postData }))
     } else {
-      dispatch(createPost({ name: user?.result?.name, ...postData }, navigate));
+      dispatch(createPost({ name: user?.result?.name, ...postData }, navigate))
     }
-    clear();
+    clear()
     // console.log(postData);
-  };
+  }
   const clear = () => {
     setPostData({
       title: '',
       message: '',
       tags: [''],
       selectedFile: '',
-    });
-    setCurrentId(0);
-  };
+    })
+    setCurrentId(0)
+  }
 
   if (!user?.result?.name)
     return (
       <Paper sx={styles.paper} elevation={6}>
-        <Typography variant="h6" align="center">
+        <Typography variant='h6' align='center'>
           Please Sign In to upload and share your amazing moments with us!
         </Typography>
       </Paper>
-    );
+    )
+
+  const convertBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(file)
+
+      fileReader.onload = () => {
+        resolve(fileReader.result)
+      }
+
+      fileReader.onerror = (error) => {
+        reject(error)
+      }
+    })
+  }
+
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files![0]
+    const base64 = await convertBase64(file) as string
+    // console.log(typeof(base64))
+    setPostData({ ...postData, selectedFile: base64 })
+  }
 
   return (
     <Paper sx={styles.paper} elevation={6}>
@@ -120,13 +138,14 @@ function Form({ currentId, setCurrentId }: Props) {
         />
 
         <Box component='div' sx={styles.fileInput}>
-          <FileBase
+          {/* <FileBase
             type='file'
             multiple={false}
             onDone={({ base64 }: any) =>
               setPostData({ ...postData, selectedFile: base64 })
             }
-          />
+          /> */}
+          <input type='file' onChange={uploadImage} />
         </Box>
         <Button
           className='bg-blue-500'
