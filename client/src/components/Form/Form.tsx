@@ -75,7 +75,7 @@ function Form({ currentId, setCurrentId }: Props) {
 
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const options = {
-      maxSizeMB: 0.064,
+      maxSizeMB: 0.1,
       useWebWorker: true,
     }
     const file = e.currentTarget.files![0]
