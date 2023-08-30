@@ -137,6 +137,13 @@ function Form({ currentId, setCurrentId }: Props) {
             onChange={uploadImage}
           />
         </Box>
+        {postData.selectedFile && (
+          <img
+            src={postData.selectedFile}
+            alt='image23'
+            className='w-full h-auto'
+          />
+        )}
         <Button
           className='bg-blue-500'
           sx={styles.buttonSubmit}
