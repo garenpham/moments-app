@@ -5,12 +5,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { createPost, updatePost } from '../../actions/posts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { PostProps } from '../../types';
-import styles from './styles';
+import { convertBase64 } from '../../utils/convertBase64'
+import styles from './styles'
 
 type Props = {
-  currentId: number;
-  setCurrentId: React.Dispatch<React.SetStateAction<number>>;
-};
+  currentId: number
+  setCurrentId: React.Dispatch<React.SetStateAction<number>>
+}
 
 function Form({ currentId, setCurrentId }: Props) {
   const [postData, setPostData] = useState({
@@ -71,24 +72,9 @@ function Form({ currentId, setCurrentId }: Props) {
       </Paper>
     )
 
-  const convertBase64 = (file: File) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader()
-      fileReader.readAsDataURL(file)
-
-      fileReader.onload = () => {
-        resolve(fileReader.result)
-      }
-
-      fileReader.onerror = (error) => {
-        reject(error)
-      }
-    })
-  }
-
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files![0]
-    const base64 = await convertBase64(file) as string
+    const base64 = (await convertBase64(file)) as string
     // console.log(typeof(base64))
     setPostData({ ...postData, selectedFile: base64 })
   }
@@ -145,7 +131,11 @@ function Form({ currentId, setCurrentId }: Props) {
               setPostData({ ...postData, selectedFile: base64 })
             }
           /> */}
-          <input type='file' onChange={uploadImage} />
+          <input
+            type='file'
+            accept='capture=camera,image/*'
+            onChange={uploadImage}
+          />
         </Box>
         <Button
           className='bg-blue-500'
