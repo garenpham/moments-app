@@ -8,6 +8,7 @@ export const convertBase64 = (file: File) => {
     }
 
     fileReader.onerror = (error) => {
+      alert(error)
       reject(error)
     }
   })
