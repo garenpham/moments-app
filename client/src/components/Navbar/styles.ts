@@ -15,7 +15,7 @@ const styles = {
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
       justifyContent: 'center',
-      padding: '30px 50px',
+      padding: '24px 10px',
     },
   },
   heading: {

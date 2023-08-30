@@ -82,102 +82,91 @@ const Auth = (props: Props) => {
 	});
 
 	return (
-		<Container
-			component={'main'}
-			maxWidth="xs">
-			<Paper
-				sx={styles.paper}
-				elevation={3}>
-				<Avatar sx={styles.avatar}>
-					<LockedOutlinedIcon />
-				</Avatar>
-				<Typography variant="h5">{isSignup ? 'Sign up' : 'Sign in'}</Typography>
-				<Box
-					component="form"
-					sx={styles.form}
-					onSubmit={handleSubmit}>
-					<Grid
-						container
-						spacing={2}>
-						{isSignup && (
-							<>
-								<Input
-									name="firstName"
-									label="First Name"
-									handleChange={handleChange}
-									autoFocus
-									half
-								/>
-								<Input
-									name="lastName"
-									label="Last Name"
-									handleChange={handleChange}
-									half
-								/>
-							</>
-						)}
-						<Input
-							name="email"
-							label="Email Address"
-							handleChange={handleChange}
-							type="email"
-						/>
-						<Input
-							name="password"
-							label="Password"
-							handleChange={handleChange}
-							type={showPassword ? 'text' : 'password'}
-							handleShowPassword={handleShowPassword}
-						/>
+    <Container component={'main'} maxWidth='xs'>
+      <Paper sx={styles.paper} elevation={3}>
+        <Avatar sx={styles.avatar}>
+          <LockedOutlinedIcon />
+        </Avatar>
+        <Typography variant='h5'>{isSignup ? 'Sign up' : 'Sign in'}</Typography>
+        <Box component='form' sx={styles.form} onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            {isSignup && (
+              <>
+                <Input
+                  name='firstName'
+                  label='First Name'
+                  handleChange={handleChange}
+                  autoFocus
+                  half
+                />
+                <Input
+                  name='lastName'
+                  label='Last Name'
+                  handleChange={handleChange}
+                  half
+                />
+              </>
+            )}
+            <Input
+              name='email'
+              label='Email Address'
+              handleChange={handleChange}
+              type='email'
+            />
+            <Input
+              name='password'
+              label='Password'
+              handleChange={handleChange}
+              type={showPassword ? 'text' : 'password'}
+              handleShowPassword={handleShowPassword}
+            />
 
-						{isSignup && (
-							<Input
-								name="confirmPassword"
-								label="Confirm Your Password"
-								handleChange={handleChange}
-								type="password"
-							/>
-						)}
-					</Grid>
+            {isSignup && (
+              <Input
+                name='confirmPassword'
+                label='Confirm Your Password'
+                handleChange={handleChange}
+                type='password'
+              />
+            )}
+          </Grid>
 
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						sx={styles.submit}>
-						{isSignup ? 'Sign up' : 'Sign in'}
-					</Button>
+          <Button
+            className='bg-blue-500'
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            sx={styles.submit}>
+            {isSignup ? 'Sign up' : 'Sign in'}
+          </Button>
 
-					{!isSignup && (
-						<Button
-							sx={styles.googleButton}
-							color="primary"
-							fullWidth
-							onClick={() => googleLogin()}
-							startIcon={<Icon />}
-							variant="contained">
-							Sign in with Google
-						</Button>
-					)}
+          {!isSignup && (
+            <Button
+              className='bg-blue-500'
+              sx={styles.googleButton}
+              color='primary'
+              fullWidth
+              onClick={() => googleLogin()}
+              startIcon={<Icon />}
+              variant='contained'>
+              Sign in with Google
+            </Button>
+          )}
 
-					<Grid
-						container
-						justifyContent="flex-end">
-						<Grid item>
-							<Button
-								style={{ fontSize: '10px' }}
-								onClick={switchMode}>
-								{isSignup
-									? 'Already have an account? Sign in'
-									: "Don't have an account? Sign Up"}
-							</Button>
-						</Grid>
-					</Grid>
-				</Box>
-			</Paper>
-		</Container>
-	);
+          <Grid container justifyContent='flex-end'>
+            <Grid item>
+              <Button style={{ fontSize: '10px' }} onClick={switchMode}>
+                {isSignup
+                  ? 'Already have an account? Sign in'
+                  : "Don't have an account? Sign Up"}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
+    </Container>
+  )
 };
 
 export default Auth;

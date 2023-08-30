@@ -80,6 +80,7 @@ const Navbar = (props: Props) => {
           </Box>
         ) : (
           <Button
+            className='bg-blue-500'
             component={Link}
             to='/auth'
             variant='contained'
