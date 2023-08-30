@@ -61,38 +61,42 @@ const Home = (props: Props) => {
 
   return (
     <Grow in>
-      <Container maxWidth="xl">
+      <Container maxWidth='xl'>
         <Grid
           sx={styles.gridContainer}
           container
-          justifyContent="space-between"
-          alignItems="stretch"
+          justifyContent='space-between'
+          alignItems='stretch'
           spacing={3}>
           <Grid item xs={12} sm={6} md={9}>
             <Posts setCurrentId={setCurrentId} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppBar sx={styles.appBarSearch} position="static" color="inherit">
+            <AppBar sx={styles.appBarSearch} position='static' color='inherit'>
               <TextField
-                name="search"
-                variant="outlined"
-                label="Search Keywords"
+                name='search'
+                variant='outlined'
+                label='Search Keywords'
                 onKeyDown={handleKeyPress}
                 fullWidth
                 value={search}
-                onChange={e => {
-                  setSearch(e.target.value);
+                onChange={(e) => {
+                  setSearch(e.target.value)
                 }}
               />
               <MuiChipsInput
                 style={{ margin: '10px 0' }}
                 value={tags}
-                onAddChip={chip => handleAddTag(chip)}
-                onDeleteChip={chip => handleDeleteTag(chip)}
-                label="Search Tags"
-                variant="outlined"
+                onAddChip={(chip) => handleAddTag(chip)}
+                onDeleteChip={(chip) => handleDeleteTag(chip)}
+                label='Search Tags'
+                variant='outlined'
               />
-              <Button onClick={searchPost} variant="contained" color="primary">
+              <Button
+                className='bg-blue-500'
+                onClick={searchPost}
+                variant='contained'
+                color='primary'>
                 Search
               </Button>
             </AppBar>
@@ -107,7 +111,7 @@ const Home = (props: Props) => {
         </Grid>
       </Container>
     </Grow>
-  );
+  )
 };
 
 export default Home;

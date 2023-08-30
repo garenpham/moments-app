@@ -78,48 +78,50 @@ function Form({ currentId, setCurrentId }: Props) {
   return (
     <Paper sx={styles.paper} elevation={6}>
       <Box
-        component="form"
-        autoComplete="off"
+        component='form'
+        autoComplete='off'
         noValidate
         sx={[styles.root, styles.form]}
         onSubmit={handleSubmit}>
-        <Typography variant="h6">
+        <Typography variant='h6'>
           {!currentId ? 'Upload a Memorable Moment' : 'Editing Post'}
         </Typography>
         <TextField
-          name="title"
-          variant="outlined"
-          label="Title"
+          name='title'
+          variant='outlined'
+          label='Title'
           fullWidth
           value={postData.title}
-          onChange={e => setPostData({ ...postData, title: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <TextField
-          name="message"
-          variant="outlined"
-          label="Message"
+          name='message'
+          variant='outlined'
+          label='Message'
           fullWidth
           value={postData.message}
-          onChange={e => setPostData({ ...postData, message: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, message: e.target.value })
+          }
         />
         <TextField
-          name="tags"
-          variant="outlined"
-          label="Tags"
+          name='tags'
+          variant='outlined'
+          label='Tags'
           fullWidth
           value={postData.tags}
-          autoComplete="off"
-          onChange={e => {
+          autoComplete='off'
+          onChange={(e) => {
             setPostData({
               ...postData,
               tags: e.target.value.trim().split(','),
-            });
+            })
           }}
         />
 
-        <Box component="div" sx={styles.fileInput}>
+        <Box component='div' sx={styles.fileInput}>
           <FileBase
-            type="file"
+            type='file'
             multiple={false}
             onDone={({ base64 }: any) =>
               setPostData({ ...postData, selectedFile: base64 })
@@ -127,25 +129,27 @@ function Form({ currentId, setCurrentId }: Props) {
           />
         </Box>
         <Button
+          className='bg-blue-500'
           sx={styles.buttonSubmit}
-          variant="contained"
-          color="primary"
-          size="large"
-          type="submit"
+          variant='contained'
+          color='primary'
+          size='large'
+          type='submit'
           fullWidth>
           Submit
         </Button>
         <Button
-          variant="contained"
-          color="error"
-          size="small"
+          className='bg-red-400'
+          variant='contained'
+          color='error'
+          size='small'
           onClick={clear}
           fullWidth>
           Clear
         </Button>
       </Box>
     </Paper>
-  );
+  )
 }
 
 export default Form;

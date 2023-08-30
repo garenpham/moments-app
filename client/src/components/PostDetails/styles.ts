@@ -28,7 +28,11 @@ const styles = {
       marginLeft: 0,
     },
   },
-  sectionDetails: { margin: '20px', cursor: 'pointer' },
+  sectionDetails: {
+    margin: '20px',
+    cursor: 'pointer',
+    maxWidth: '200px',
+  },
   recommendedPosts: {
     display: 'flex',
     overflow: 'scroll',

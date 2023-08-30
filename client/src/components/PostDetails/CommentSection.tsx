@@ -58,6 +58,7 @@ const CommentSection = ({ post }: Props) => {
               onChange={(e) => setComment(e.target.value)}
             />
             <Button
+              className='bg-blue-500'
               style={{ marginTop: '10px' }}
               fullWidth
               disabled={!comment}

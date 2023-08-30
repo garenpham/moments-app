@@ -42,67 +42,59 @@ const Navbar = (props: Props) => {
 	}, [location, profile]);
 
 	return (
-		<>
-			<AppBar
-				sx={styles.appBar}
-				position="static"
-				color="inherit">
-				<Box
-					component={'div'}
-					sx={styles.brandContainer}>
-					<Typography
-						component={Link}
-						to="/"
-						sx={styles.heading}
-						variant="h2"
-						align="center">
-						Moments
-					</Typography>
-					<Box
-						component="img"
-						sx={styles.image}
-						src={window.location.origin + '/moments-Logo.png'}
-						alt="memories"
-					/>
-				</Box>
+    <>
+      <AppBar sx={styles.appBar} position='static' color='inherit'>
+        <Box component={'div'} sx={styles.brandContainer}>
+          <Typography
+            component={Link}
+            to='/'
+            sx={styles.heading}
+            variant='h2'
+            align='center'>
+            Moments
+          </Typography>
+          <Box
+            component='img'
+            sx={styles.image}
+            src={window.location.origin + '/moments-Logo.png'}
+            alt='memories'
+          />
+        </Box>
 
-				<Toolbar sx={styles.toolbar}>
-					{user ? (
-						<Box
-							component={'div'}
-							sx={styles.profile}>
-							<Avatar
-								sx={styles.purple}
-								alt={user.result.name}
-								src={user.result?.picture}>
-								{user.result.name.charAt(0)}
-							</Avatar>
-							<Typography
-								sx={styles.userName}
-								variant="h6">
-								{user.result.name}
-							</Typography>{' '}
-							<Button
-								variant="contained"
-								sx={styles.logout}
-								color="error"
-								onClick={logout}>
-								Sign out
-							</Button>
-						</Box>
-					) : (
-						<Button
-							component={Link}
-							to="/auth"
-							variant="contained"
-							color="primary">
-							Sign in
-						</Button>
-					)}
-				</Toolbar>
-			</AppBar>
-		</>
-	);
+        <Toolbar sx={styles.toolbar}>
+          {user ? (
+            <Box component={'div'} sx={styles.profile}>
+              <Avatar
+                sx={styles.purple}
+                alt={user.result.name}
+                src={user.result?.picture}>
+                {user.result.name.charAt(0)}
+              </Avatar>
+              <Typography sx={styles.userName} variant='h6'>
+                {user.result.name}
+              </Typography>{' '}
+              <Button
+                variant='contained'
+                sx={styles.logout}
+                color='error'
+                className='bg-red-400'
+                onClick={logout}>
+                Sign out
+              </Button>
+            </Box>
+          ) : (
+            <Button
+              component={Link}
+              to='/auth'
+              variant='contained'
+              color='primary'>
+              Sign in
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+    </>
+  )
 };
 
 export default Navbar;
