@@ -110,7 +110,7 @@ const PostDetails = (props: Props) => {
                 _id,
               }: PostProps) => (
                 <Box
-                  className={`mt-[2rem] m-[1rem] border rounded-xl hover:shadow lg:hover:scale-[1.02] lg:active:scale-100 active:scale-95 ${globalStyles.longTransition}`}
+                  className={`mt-[2rem] m-[.4rem] border rounded-xl hover:shadow lg:hover:scale-[1.02] lg:active:scale-100 active:scale-95 ${globalStyles.longTransition}`}
                   component='div'
                   sx={styles.sectionDetails}
                   onClick={() => openPost(_id)}
