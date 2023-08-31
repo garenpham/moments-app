@@ -1,4 +1,4 @@
-## Full Stack MERN & CRUD Web Application
+## Full Stack MERN & CRUD Social Media Web Application
 
 <img align="left" alt="MERN" height="50px" width="120px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MERN-logo.png/640px-MERN-logo.png" />
 
